@@ -17,7 +17,6 @@
 [Rr]eleases/
 x64/
 x86/
-build/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -216,6 +215,7 @@ MirrorheadOSC/docu/
 
 # Haskell
 .stack-work/
+.stack-work-build/
 *.hi
 *.o
 *.ll
@@ -235,6 +235,10 @@ cabal.config
 *.aux
 *.hp
 *.eventlog
+
+# Karel build output
+build/
+karelc
 
 # BNFC generated files for Whitespace (specific)
 *.bak
@@ -280,33 +284,15 @@ karel/src/*.bak
 AbsKarel.hs
 ErrM.hs
 LexKarel.x
-LexKarel.hs
 ParKarel.y
-ParKarel.hs
 ParKarel.info
 PrintKarel.hs
 SkelKarel.hs
 TestKarel.hs
 DocKarel.txt
 DocKarel.tex
-Makefile
+lib*
 
-# Karel Ninja build (generated, don't commit)
-karel/build.ninja
-karel/debug.ninja
-karel/release.ninja
-karel/build/
-
-# Executables
-bfc
-wsc
-bf/bfc
-whitespace/wsc
-hello
-hello2
-echo
-simple
-tmp.ws
 
 # Build artifacts
 *.tar.gz

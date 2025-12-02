@@ -14,6 +14,7 @@ import Precompiler
 import ModuleResolver
 import CodeGen
 import LLVM
+import qualified LLVM.AST as AST
 
 -- | Main entry point
 main :: IO ()
@@ -27,7 +28,7 @@ main = do
       hPutStrLn stderr "  -o <file>         Output file"
       hPutStrLn stderr "  -emit-llvm        Generate LLVM IR"
       hPutStrLn stderr "  -S                Generate assembly"
-      hPutStrLn stderr "  --aku-path <path> Path to AKU library (default: ../aku)"
+      hPutStrLn stderr "  --lib-path <path> Path to lib directory (default: ../lib)"
       hPutStrLn stderr "  --precompile      Run precompiler only"
       hPutStrLn stderr "  --no-precompile   Skip precompiler"
       exitFailure
@@ -40,8 +41,8 @@ main = do
           exitFailure
         
         Ok tree -> do
-          let akuPath = getAkuPath flags (takeDirectory file ++ "/../aku")
-          let includePaths = generateIncludePaths akuPath
+          let libPath = getLibPath flags (takeDirectory file ++ "/../lib")
+          let includePaths = generateIncludePaths libPath
           
           -- Run precompiler if not disabled
           processedTree <- if "--no-precompile" `elem` flags
@@ -63,11 +64,11 @@ main = do
               processFlags file flags llvmMod
               exitSuccess
 
--- | Get AKU library path from flags
-getAkuPath :: [String] -> FilePath -> FilePath
-getAkuPath [] defaultPath = defaultPath
-getAkuPath ("--aku-path":path:_) _ = path
-getAkuPath (_:rest) defaultPath = getAkuPath rest defaultPath
+-- | Get LIB library path from flags
+getLibPath :: [String] -> FilePath -> FilePath
+getLibPath [] defaultPath = defaultPath
+getLibPath ("--lib-path":path:_) _ = path
+getLibPath (_:rest) defaultPath = getLibPath rest defaultPath
 
 -- | Process command line flags
 processFlags :: FilePath -> [String] -> AST.Module -> IO ()

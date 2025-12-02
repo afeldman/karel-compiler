@@ -8,19 +8,18 @@ extra-deps:
   - llvm-hs-pure-9.0.0
   - llvm-hs-pretty-0.9.0.0
 
+system-ghc: true
+allow-newer: true
+skip-ghc-check: true
+
 flags: {}
 
 extra-include-dirs:
-  - /usr/lib/llvm-14/include
   - /usr/lib/llvm-15/include
-  - /usr/lib/llvm-16/include
-  - /usr/local/opt/llvm@14/include
-  - /usr/local/opt/llvm@15/include
-  - /usr/include/llvm-14
   - /usr/include/llvm-15
 
 extra-lib-dirs:
-  - /usr/lib/llvm-14/lib
+  - /usr/lib/llvm-15/lib
   - /usr/lib/llvm-15/lib
   - /usr/lib/llvm-16/lib
   - /usr/local/opt/llvm@14/lib
