@@ -1,0 +1,5 @@
+PROGRAM foo
+VAR
+	var3: INTEGER
+BEGIN
+END foo

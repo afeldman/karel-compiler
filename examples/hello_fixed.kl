@@ -1,4 +1,6 @@
 PROGRAM hello_world;
+VAR;
+  x : INTEGER
 BEGIN
-    WRITE('Hello from Karel!')
+  x = 42
 END hello_world

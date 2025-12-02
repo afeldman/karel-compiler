@@ -1,0 +1,10 @@
+#!/bin/bash
+# Wrapper script to run karelc in Docker container
+
+if [ ! -f ./build/karelc ]; then
+    echo "Error: Compiler not built. Run ./build.sh first"
+    exit 1
+fi
+
+# Run karelc in Docker container with all arguments
+docker-compose run --rm karel-builder ./build/karelc "$@"

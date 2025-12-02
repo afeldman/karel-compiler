@@ -1,42 +1,41 @@
-FROM haskell:9.4.8
+FROM alpine:latest
 
-# Use Debian archive for Buster (EOL)
-RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
-    sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
-    sed -i '/stretch-updates/d' /etc/apt/sources.list
+# Install C++ build tools and LLVM 15
+RUN apk upgrade --no-cache && \
+    apk add --no-cache \
+        build-base \
+        cmake \
+        flex \
+        llvm15 \
+        llvm15-dev \
+        llvm15-static \
+        clang15 \
+        git \
+        ghc \
+        cabal \
+        bash \
+        wget \
+        m4
 
-# Install LLVM 15 from official repo
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    software-properties-common \
-    clang \
-    make \
-    git \
-    && rm -rf /var/lib/apt/lists/*
+# Build Bison 3.8.2 from source (Alpine only has ancient 2.3)
+RUN wget https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.gz && \
+    tar -xzf bison-3.8.2.tar.gz && \
+    cd bison-3.8.2 && \
+    ./configure --prefix=/usr && \
+    make -j$(nproc) && \
+    make install && \
+    cd .. && \
+    rm -rf bison-3.8.2 bison-3.8.2.tar.gz
 
-# Add LLVM 15 repo and install
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-    echo "deb http://apt.llvm.org/buster/ llvm-toolchain-buster-15 main" > /etc/apt/sources.list.d/llvm.list && \
-    apt-get update && apt-get install -y \
-    llvm-15 \
-    llvm-15-dev \
-    libllvm15 \
-    && rm -rf /var/lib/apt/lists/*
+# Set LLVM 15 environment
+ENV LLVM_DIR=/usr/lib/llvm15
+ENV PATH="${LLVM_DIR}/bin:${PATH}"
+ENV CC=clang-15
+ENV CXX=clang++-15
 
-# Set LLVM paths
-ENV LLVM_CONFIG=/usr/lib/llvm-15/bin/llvm-config
-ENV PATH="/usr/lib/llvm-15/bin:${PATH}"
-ENV LD_LIBRARY_PATH="/usr/lib/llvm-15/lib:${LD_LIBRARY_PATH}"
+# Install BNFC
+RUN cabal update && \
+    cabal install --install-method=copy --installdir=/usr/local/bin BNFC-2.9.6.1
 
-# Install Haskell tools
-RUN cabal update && cabal install BNFC alex happy
-
-# Set working directory
 WORKDIR /workspace
 
-# Copy project files
-COPY . /workspace/
-
-# Default command
-CMD ["/bin/bash"]

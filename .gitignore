@@ -213,14 +213,10 @@ ModelManifest.xml
 # exclude documentation folder
 MirrorheadOSC/docu/
 
-# Haskell
+# Haskell (not used anymore)
 .stack-work/
 .stack-work-build/
 *.hi
-*.o
-*.ll
-*.bc
-*.s
 dist/
 dist-newstyle/
 cabal-dev
@@ -236,9 +232,29 @@ cabal.config
 *.hp
 *.eventlog
 
-# Karel build output
+# Karel C++ build output
 build/
-karelc
+build-cpp/
+!karelc
+*.o
+*.a
+
+# BNFC generated parser (C backend - regenerated on build)
+parser-c/
+parser-cpp/
+
+# Test artifacts
+test_*.kl
+test_*
+!test/
+
+# Compiled binaries and temporaries
+*.out
+a.out
+*.c.tmp
+*.ll
+*.bc
+*.s
 
 # BNFC generated files for Whitespace (specific)
 *.bak

@@ -52,7 +52,7 @@ comment "{-" "-}";     -- haskell multiline comment
 -- therefore the programm ends with the implementation of the routines from time declaration block
 -- each routine in the routine definition block starts with the keyword ROUTINE and the identifier of the routine
 --
-KarelGrammer. Karel ::= "PROGRAM" Ident OptLineEnd [DirectiveBlock] [DeclBlock] "BEGIN" [Stm] "END" Ident [RoutineDefinitionBlock] ;
+KarelGrammer. Karel ::= "PROGRAM" Ident ";" [DirectiveBlock] [DeclBlock] "BEGIN" [Stm] "END" Ident [RoutineDefinitionBlock] ;
 
 -- this is the meta information block and is important for the robot not for the karel programm itself.
 -- i placed it here because it is the first block in the karel program and i want to be comapatible with the
@@ -118,26 +118,26 @@ DeclRoutine.    DeclBlock ::= RoutineDeclBlock ;
 -- the constant block starts with the 'CONST' keyword followed by a list of constant declarations
 -- the list is seperated by optional linebrakes (semicolon or new line)
 -- each constant declaration starts with an identifier followed by an equal sign and a literal and ends with an optional linebreak
-CDB. ConstDeclBlock ::= "CONST" OptLineEnd [ConstDecl] ;
-CDIdent.        ConstDecl ::= Ident "=" Ident OptLineEnd ;
-CDLiteral.      ConstDecl ::= Ident "=" Literal OptLineEnd ;
+CDB. ConstDeclBlock ::= "CONST" ";" [ConstDecl] ;
+CDIdent.        ConstDecl ::= Ident "=" Ident ";" ;
+CDLiteral.      ConstDecl ::= Ident "=" Literal ";" ;
 [].    [ConstDecl] ::= ;
 (:).   [ConstDecl] ::= ConstDecl [ConstDecl] ;
 
 -- declaration of the Type Block. 
 -- a type block starts with the 'TYPE' keyword followed by an optional linebreak and close with a list of type declarations
-TCB. TypeDeclBlock ::= "TYPE" OptLineEnd [TypeDecl];
-TDeclU.  TypeDecl ::= Ident "FROM" Ident UserType OptLineEnd;
-TUser.  TypeDecl ::= Ident "=" UserType OptLineEnd;
-TUserD. TypeDecl ::= UserType OptLineEnd;
+TDB. TypeDeclBlock ::= "TYPE" ";" [TypeDecl] ;
+TDeclU.  TypeDecl ::= Ident "FROM" Ident UserType ";";
+TUser.  TypeDecl ::= Ident "=" UserType ";";
+TUserD. TypeDecl ::= UserType ";" ;
 --[].    [TypeDecl] ::= ;
 (:[]). [TypeDecl] ::= TypeDecl ;
 (:).   [TypeDecl] ::= TypeDecl [TypeDecl] ;
 
 -- variable declaration block.
-VDB. VarDeclBlock ::= "VAR" OptLineEnd [VarDecl] ;
-VarDIden.  VarDecl ::= Ident "," OptLineEnd VarDecl ;
-VarDDtype. VarDecl ::= Ident MemTypes FromBlock ":" DataTypes ;
+VDB. VarDeclBlock ::= "VAR" ";" [VarDecl] ;
+VarDIden.  VarDecl ::= Ident "," ";" VarDecl ;
+VarDDtype. VarDecl ::= Ident MemTypes FromBlock ":" DataTypes ";" ;
 [].    [VarDecl] ::= ;
 (:).   [VarDecl] ::= VarDecl [VarDecl] ;
 
@@ -161,7 +161,7 @@ ParamType. ParamIdent ::= Ident;
 (:).   [ParamIdent] ::= ParamIdent "," [ParamIdent] ;
 
 -- routine definition Block
-RoutineDefineBlock. RoutineDefinitionBlock ::= "ROUTINE" Ident OptLineEnd [DeclBlock] "BEGIN" [Stm] "END" Ident ;
+RoutineDefineBlock. RoutineDefinitionBlock ::= "ROUTINE" Ident ";" [DeclBlock] "BEGIN" [Stm] "END" Ident ;
 [].    [RoutineDefinitionBlock] ::= ;
 (:).   [RoutineDefinitionBlock] ::= RoutineDefinitionBlock [RoutineDefinitionBlock] ;
 
@@ -418,7 +418,7 @@ EJToPos.  Expression ::= "JPOS_TO_POS" "(" Expression "," Expression ")" ;
 ------------------------------------ types ---------------------------------
 -- user types
 UserTypeDT.        UserType ::= Ident "=" DataTypes;
-UserTypeStruct.    UserType ::= "STRUCTURE" Ident OptLineEnd [VarDecl] "ENDSTRUCTURE" ;
+UserTypeStruct.    UserType ::= "STRUCTURE" Ident ";" [VarDecl] "ENDSTRUCTURE" ;
 
 -- EmptyType
 EmpyType. Empty ::= ;
@@ -525,9 +525,6 @@ rules Text ::= String | QuotedString ;
 ConstLiteral.   Constant ::= Literal ;
 ConstIdent.     Constant ::= Ident ;
 
--- the optinal line end is a semicolon or a new line
-rules    OptLineEnd ::= LineEnd | Empty;
+-- Semicolons are now mandatory for all declarations and statements
 
--- token Path (letter|'/')+ ;
-token QuotedString '\'' ((char - ["'\\"]) | ('\\' ["'\\nt"]) )* '\'';
-token LineEnd ((';'|'\n')+) ;
+token QuotedString '\'' ((char - ["'\\"]) | ('\\' ["'\\nt"]) )* '\'' ;

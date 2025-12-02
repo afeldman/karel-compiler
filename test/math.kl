@@ -1,9 +1,9 @@
-PROGRAM math_example
+PROGRAM math_example;
 
-VAR
-  angle : REAL
-  result : REAL
-  pi : REAL
+VAR;
+  angle : REAL;
+  result : REAL;
+  pi : REAL;
   
 BEGIN
   pi = 3.14159265359
