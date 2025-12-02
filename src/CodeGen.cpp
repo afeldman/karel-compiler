@@ -1,3 +1,5 @@
+// Include KarelEnums.h first for enum definitions
+#include "KarelEnums.h"
 // Include Absyn.h directly to get enum visibility
 #include "Absyn.h"
 #include "CodeGen.h"
@@ -222,8 +224,16 @@ std::string CodeGenerator::genExpression(Expression expr) {
         case is_EIdent:
             return std::string(expr->u.eIdent_.ident_);
             
-        case is_EQString:
-            return std::string("\"") + expr->u.eQString_.quotedstring_ + "\"";
+        case is_EQString: {
+            Text text = expr->u.eQString_.text_;
+            std::string content;
+            if (text->kind == 0) {  // is_TextString
+                content = text->u.textString_.string_;
+            } else {  // is_TextQuotedString
+                content = text->u.textQuotedString_.quotedstring_;
+            }
+            return std::string("\"") + content + "\"";
+        }
             
         case is_EAdd:
             return genExpression(expr->u.eAdd_.expression_1) + " + " + 
@@ -278,7 +288,7 @@ std::string CodeGenerator::genExpression(Expression expr) {
                    genExpression(expr->u.eOR_.expression_2);
                    
         case is_ENot:
-            return "!" + genExpression(expr->u.eNot_.expression_);
+            return "!" + genExpression(expr->u.eNot_.expression_1);
             
         case is_EPlus:
             return "+" + genExpression(expr->u.ePlus_.expression_);

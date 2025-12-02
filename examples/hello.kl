@@ -1,6 +1,4 @@
-PROGRAM hello
-VAR
-  x : INTEGER
+PROGRAM hello_world;
 BEGIN
-  x = 42
-END hello
+    WRITE('Hello from Karel!')
+END hello_world

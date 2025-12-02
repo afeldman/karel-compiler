@@ -1,12 +1,15 @@
-// Manual enum definitions for BNFC C backend
-// These are copied from Absyn.h to make them accessible in C++
+// Enum value definitions extracted from BNFC-generated Absyn.h
+// These define the enum values that are used in struct Stm_ and struct Expression_
+// In C++, anonymous enums inside structs are not directly accessible, so we need
+// to define these values explicitly.
 
 #ifndef KAREL_ENUMS_H
 #define KAREL_ENUMS_H
 
-// Statement types
-enum {
-    is_SAttach, is_SRelease, is_SAbort, is_SAbortP, is_SAssign, 
+// Statement kind values (from struct Stm_)
+// These match the exact order in Absyn.h line 703
+enum StmKind {
+    is_SAttach = 0, is_SRelease, is_SAbort, is_SAbortP, is_SAssign, 
     is_SCloseFile, is_SCloseHand, is_SDelay, is_SConnect, is_SDisable, 
     is_SDisconectT, is_SEnable, is_SOpenHand, is_SPurge, is_SRelax, 
     is_SSignal, is_SCancel, is_SCancelFile, is_SCancelGroup, is_SCallparamExp, 
@@ -23,11 +26,11 @@ enum {
     is_SGetPosTPE, is_SSetPosTPE, is_SMsg, is_SActScreen, is_SDeactScreen
 };
 
-// Expression types  
-enum {
-    is_EBrack = 1000,  // Start at 1000 to avoid conflicts
-    is_EEqual, is_ENEqual, is_ELess, is_ELeq, is_Egret, is_Egeq, is_Esp,
-    is_EAdd, is_ESub, is_EOR, is_EPlus, is_EMinus, is_EMul, is_EAdiv, 
+// Expression kind values (from struct Expression_)
+// These match the exact order in Absyn.h line 1058
+enum ExprKind {
+    is_EBrack = 0, is_EEqual, is_ENEqual, is_ELess, is_ELeq, is_Egret, is_Egeq, 
+    is_Esp, is_EAdd, is_ESub, is_EOR, is_EPlus, is_EMinus, is_EMul, is_EAdiv, 
     is_EAnd, is_EMOD, is_EDiv, is_ENot, is_EDot, is_EAt, is_EHash, 
     is_EIdent, is_EQString, is_EDouble, is_EInt, 
     is_EABS, is_EACOS, is_EASIN, is_EATAN2, is_ECOS, is_ESin, is_ETan, 
