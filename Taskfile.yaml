@@ -1,0 +1,32 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  TARGET: ./build
+
+tasks:
+  prebuild:
+    desc: build folders
+    cmds:
+      - mkdir -p "{{.TARGET}}"
+  delete:
+    desc: delete if exists
+    cmds:
+      - rm -rf "{{.TARGET}}"/* || true
+  bnfc:
+    desc: create the files from cf source
+    cmds:
+      - bnfc -m --haskell -o "{{.TARGET}}" karel.cf 
+  make:
+    desc: make the project
+    cmds:
+      - make -C "{{.TARGET}}"
+      - make -C "{{.TARGET}}" clean
+  default:
+    cmds:
+      - task prebuild
+      - task delete
+      - task bnfc
+      - task make
+    silent: true

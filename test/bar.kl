@@ -1,0 +1,26 @@
+PROGRAM bar
+CONST
+        a = 1
+        b = "Test"
+TYPE
+        STRUCTURE test
+               var_a : INTEGER
+        ENDSTRUCTURE
+VAR
+        var2: test
+        var3: INTEGER
+
+ROUTINE do_something_too () : Integer
+
+BEGIN
+   xl = 2
+   PAUSE
+   RETURN(a)
+END bar
+
+ROUTINE do_something_too
+CONST
+  a = 1
+BEGIN
+   RETURN
+END do_something_too

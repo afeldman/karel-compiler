@@ -1,0 +1,4 @@
+PROGRAM hello_world
+BEGIN
+    WRITE('Hello from Karel!')
+END hello_world

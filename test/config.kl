@@ -1,0 +1,46 @@
+-- Configuration using preprocessor
+-- This demonstrates conditional features based on robot model
+
+%DEFINE ROBOT_MODEL 3
+%DEFINE HAS_VISION TRUE
+%DEFINE MAX_SPEED 250
+
+-- Robot-specific configurations
+%IF ROBOT_MODEL = 1
+  %DEFINE AXES 6
+  %DEFINE PAYLOAD 50
+%ENDIF
+
+%IF ROBOT_MODEL = 2
+  %DEFINE AXES 6
+  %DEFINE PAYLOAD 100
+%ENDIF
+
+%IF ROBOT_MODEL = 3
+  %DEFINE AXES 7
+  %DEFINE PAYLOAD 150
+%ENDIF
+
+PROGRAM config_demo
+BEGIN
+  VAR
+    speed : INTEGER
+    axes : INTEGER
+    
+  speed = MAX_SPEED
+  axes = AXES
+  
+  WRITE('Robot Model: ')
+  WRITE(ROBOT_MODEL)
+  WRITE('Axes: ')
+  WRITE(axes)
+  WRITE('Max Payload: ')
+  WRITE(PAYLOAD)
+  
+  %IFDEF HAS_VISION
+    WRITE('Vision system: Enabled')
+  %ELSE
+    WRITE('Vision system: Disabled')
+  %ENDIF
+  
+END config_demo

@@ -1,0 +1,20 @@
+PROGRAM math_example
+
+VAR
+  angle : REAL
+  result : REAL
+  pi : REAL
+  
+BEGIN
+  pi = 3.14159265359
+  angle = 45.0
+  
+  -- Convert to radians
+  angle = angle * pi / 180.0
+  
+  -- Calculate sine
+  result = SIN(angle)
+  
+  WRITE('sin(45°) = ')
+  WRITELN(result)
+END math_example

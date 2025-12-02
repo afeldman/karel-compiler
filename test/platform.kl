@@ -1,0 +1,43 @@
+-- Platform-specific code using preprocessor
+-- Demonstrates conditional compilation for different platforms
+
+%DEFINE PLATFORM_X86 1
+%DEFINE PLATFORM_ARM 2
+%DEFINE PLATFORM_FANUC 3
+
+-- Set target platform
+%DEFINE TARGET_PLATFORM PLATFORM_FANUC
+
+PROGRAM platform_demo
+
+%IF TARGET_PLATFORM = PLATFORM_X86
+  %DEFINE ARCHITECTURE "x86_64"
+  %DEFINE POINTER_SIZE 8
+%ENDIF
+
+%IF TARGET_PLATFORM = PLATFORM_ARM
+  %DEFINE ARCHITECTURE "aarch64"
+  %DEFINE POINTER_SIZE 8
+%ENDIF
+
+%IF TARGET_PLATFORM = PLATFORM_FANUC
+  %DEFINE ARCHITECTURE "fanuc_r30ia"
+  %DEFINE POINTER_SIZE 4
+  %INCLUDE "fanuc_runtime.h.kl"
+%ENDIF
+
+BEGIN
+  WRITE('Target Platform: ')
+  WRITE(TARGET_PLATFORM)
+  WRITE('Architecture: ')
+  WRITE(ARCHITECTURE)
+  WRITE('Pointer Size: ')
+  WRITE(POINTER_SIZE)
+  
+  %IF TARGET_PLATFORM = PLATFORM_FANUC
+    WRITE('Using FANUC-specific features')
+  %ELSE
+    WRITE('Using generic implementation')
+  %ENDIF
+  
+END platform_demo

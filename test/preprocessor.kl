@@ -1,0 +1,64 @@
+-- Karel Preprocessor Example
+-- Demonstrates C-style preprocessing with %DEFINE, %IF, %IFDEF, etc.
+
+PROGRAM preprocessor_demo
+
+-- Define constants using preprocessor
+%DEFINE DEBUG 1
+%DEFINE VERSION 2
+%DEFINE MAX_SIZE 100
+%DEFINE PI 3.14159
+
+-- Conditional compilation based on DEBUG flag
+%IFDEF DEBUG
+  %DEFINE LOG_LEVEL 3
+  %DEFINE VERBOSE TRUE
+%ELSE
+  %DEFINE LOG_LEVEL 1
+  %DEFINE VERBOSE FALSE
+%ENDIF
+
+-- Conditional code based on VERSION
+%IF VERSION >= 2
+  %DEFINE USE_NEW_API TRUE
+%ELSE
+  %DEFINE USE_NEW_API FALSE
+%ENDIF
+
+BEGIN
+  VAR
+    size : INTEGER
+    radius : REAL
+    
+  -- Use defined constants
+  size = MAX_SIZE
+  radius = PI * 2.0
+  
+  %IFDEF DEBUG
+    -- This code only included if DEBUG is defined
+    WRITE('Debug mode: ON')
+    WRITE('Log level: ')
+    WRITE(LOG_LEVEL)
+  %ENDIF
+  
+  %IF VERSION >= 2
+    WRITE('Using new API')
+  %ELSE
+    WRITE('Using legacy API')
+  %ENDIF
+  
+  -- Undefine and redefine
+  %UNDEF DEBUG
+  %DEFINE DEBUG 0
+  
+  %IFDEF DEBUG
+    -- This won't be included after %UNDEF
+    WRITE('This should not appear')
+  %ENDIF
+  
+  %IFNDEF DEBUG
+    -- This will be included after %UNDEF
+    WRITE('Debug mode: OFF')
+  %ENDIF
+  
+END preprocessor_demo
