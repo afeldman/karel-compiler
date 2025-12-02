@@ -276,6 +276,21 @@ whitespace/ComposOp.hs
 karel/src/Makefile
 karel/src/*.bak
 
+# Karel BNFC generated files in root (NOT in git - duplicates from docker build)
+AbsKarel.hs
+ErrM.hs
+LexKarel.x
+LexKarel.hs
+ParKarel.y
+ParKarel.hs
+ParKarel.info
+PrintKarel.hs
+SkelKarel.hs
+TestKarel.hs
+DocKarel.txt
+DocKarel.tex
+Makefile
+
 # Karel Ninja build (generated, don't commit)
 karel/build.ninja
 karel/debug.ninja
